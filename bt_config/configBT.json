@@ -1,14 +1,23 @@
-{ 
+{
     "java_pojo_rules": [
        {
         "include_or_exclude_rule": "exclude",
         "rule_name": "getStatus_test",
-        "class_name": "com.appdynamics.health.Class",
+        "class_name": "de.appdynamics.health.Class",
         "class_matching_condition":"STARTS_WITH",
         "method_name": "getStatus",
         "method_matching_condition":"EQUALS",
         "priority":"10"
-       }
+      },
+      {
+       "include_or_exclude_rule": "exclude",
+       "rule_name": "another_test",
+       "class_name": "${CMA_VAR_DEFAULT_NAMESPACE}.my.Class",
+       "class_matching_condition":"STARTS_WITH",
+       "method_name": "test",
+       "method_matching_condition":"EQUALS",
+       "priority":"10"
+      }
      ],
 
      "dotnet_poco_rules": [
@@ -49,6 +58,6 @@
        "matching_strings": "^user.*(\/login)$",
        "priority":"7"
       }
-    ]   
+    ]
 
    }

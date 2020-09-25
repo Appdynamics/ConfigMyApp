@@ -9,6 +9,7 @@ app_name="$1"
 user_credentials="$2"
 controller_url="$3"
 
+
 poco_temp_file="poco_temp_file.xml"
 poco_scope_temp_file="poco_scope_temp_file.xml"
 
@@ -87,7 +88,7 @@ java_servlet_func() {
     servlet_custom_rules=""
     servlet_scopes=""
 
-    for row in $(cat "${bt_conf}" | jq -r ' .java_servlet_rules[]? | @base64'); do
+    for row in $(cat "${bt_conf}" | envsubst "${variable_whitelist}" | jq -r ' .java_servlet_rules[]? | @base64'); do
 
         _ijq() {
             echo ${row} | base64 --decode | jq -r ${1}
@@ -129,7 +130,7 @@ asp_func() {
     #these variables need to be global variables as the func is returning multiple values
     asp_custom_rules=""
     asp_scopes=""
-    for row in $(cat "${bt_conf}" | jq -r ' .dotnet_asp_rules[]? | @base64'); do
+    for row in $(cat "${bt_conf}" | envsubst "${variable_whitelist}" | jq -r ' .dotnet_asp_rules[]? | @base64'); do
 
         _ijq() {
             echo ${row} | base64 --decode | jq -r ${1}
@@ -173,7 +174,7 @@ dotnet_poco_func() {
     #these variables need to be global variables as the func is returning multiple values
     dotnet_poco_custom_rules=""
     dotnet_poco_scopes=""
-    for row in $(cat "${bt_conf}" | jq -r ' .dotnet_poco_rules[]? | @base64'); do
+    for row in $(cat "${bt_conf}" | envsubst "${variable_whitelist}" | jq -r ' .dotnet_poco_rules[]? | @base64'); do
 
         _ijq() {
             echo ${row} | base64 --decode | jq -r ${1}
@@ -219,7 +220,7 @@ dotnet_poco_func() {
 java_pojo_func() {
     java_pojo_custom_rules=""
     java_pojo_scopes=""
-    for row in $(cat "${bt_conf}" | jq -r ' .java_pojo_rules[]? | @base64'); do
+    for row in $(cat "${bt_conf}" | envsubst "${variable_whitelist}" | jq -r ' .java_pojo_rules[]? | @base64'); do
 
         _ijq() {
             echo ${row} | base64 --decode | jq -r ${1}
@@ -268,6 +269,12 @@ bt_file_path="$bt_folder/$app_name-$dt.xml"
 
 cp "$bt_folder/$bt_config_template" "$bt_file_path"
 
+# Whitelist variables with prefix "CMA_VAR"
+variable_whitelist="$(printf '${%s} ' ${!CMA_VAR*})"
+echo -e "The following variables will be used for substitution: ${variable_whitelist}\n"
+
+#echo $variable_whitelist
+
 #Call ASP function
 asp_func
 
@@ -296,27 +303,32 @@ if [ -f "$bt_file_path" ]; then
 
     btendpoint="/transactiondetection/${app_name}/custom"
 
-    bt_response=$(curl -s -X POST -w "%{http_code}" --user ${user_credentials} ${controller_url}${btendpoint} -F file=@${bt_file_path} ${proxy_details})
-
-    if [[ "$bt_response" == *"200"* ]]; then
-        echo ""
-        echo "*********************************************************************"
-        echo "ConfigMyApp created Business transaction detection rules successfully."
-        echo "Please check $appName detection rule configuration pages."
-        echo "*********************************************************************"
-        echo ""
+    if [ -z "${controller_url// }" ]; then
+        echo "Controller host is not set, assume dry run:"
+        echo "curl -s -X POST -w \"%{http_code}\" --user ${user_credentials} controller${btendpoint} -F file=@${bt_file_path} ${proxy_details})"
     else
-        msg="An Error occured whilst creating business transaction detection rules. Please refer to the error.log file for further details"
-        echo "${dt} An Error occured whilst creating business transaction detection rules." >> error.log
-        echo "${dt} ERROR $bt_response" >>error.log
-        echo "$msg"
-        echo "$bt_response"
-        echo ""
-        sleep 1
+        bt_response=$(curl -s -X POST -w "%{http_code}" --user ${user_credentials} ${controller_url}${btendpoint} -F file=@${bt_file_path} ${proxy_details})
+
+        if [[ "$bt_response" == *"200"* ]]; then
+            echo ""
+            echo "*********************************************************************"
+            echo "ConfigMyApp created Business transaction detection rules successfully."
+            echo "Please check $appName detection rule configuration pages."
+            echo "*********************************************************************"
+            echo ""
+        else
+            msg="An Error occured whilst creating business transaction detection rules. Please refer to the error.log file for further details"
+            echo "${dt} An Error occured whilst creating business transaction detection rules." >> error.log
+            echo "${dt} ERROR $bt_response" >>error.log
+            echo "$msg"
+            echo "$bt_response"
+            echo ""
+            sleep 1
+        fi
+        #clean up
+        mkdir -p $bt_folder/uploaded
+        mv $bt_file_path $bt_folder/uploaded
     fi
-    #clean up
-    mkdir -p $bt_folder/uploaded
-    mv $bt_file_path $bt_folder/uploaded
 
 else
     echo "$bt_file_path does not exist"
