@@ -17,3 +17,4 @@ api_actions/uploaded/*.json*
 api_actions/actions/*.json*
 custom_dashboards/*.json*
 custom_dashboards/uploaded/*.json*
+cookie.appd
