@@ -29,7 +29,15 @@
       "include_sim": false,
       "configure_bt": false,
       "bt_only": false,
-      "upload_custom_dashboard": false
+      "upload_custom_dashboard": false,
+      "upload_default_dashboard": true
+    }
+  ],
+  "health_rules": [
+    {
+      "health_rules_only": false,
+      "health_rules_overwrite": false,
+      "health_rules_delete": ""
     }
   ],
   "health_rules": [
@@ -47,6 +55,22 @@
       "suppress_duration": "",
       "suppress_upload_files": false,
       "suppress_delete": ""
+    }
+  ],
+  "rbac": [
+    {
+      "rbac_only": false,
+      "rbac_action": "role-saml",
+      "rbac_role_name": "",
+      "rbac_role_description": "",
+      "rbac_saml_group_name": ""
+    }
+  ],
+  "sensitive_data": [
+    {
+      "data_masking": false,
+      "data_masking_patterns": "configmyapp-prod, https://, -.*8090",
+      "data_masking_strategy": "exact"
     }
   ]
 }

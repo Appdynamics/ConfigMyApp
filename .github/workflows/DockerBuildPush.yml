@@ -19,7 +19,7 @@ jobs:
           tag_with_ref: true
           dockerfile: docker/Dockerfile
       
-  QA-DcokerImage:
+  QA-DockerImage:
     runs-on: ubuntu-latest
     steps:
     - uses: actions/checkout@v2

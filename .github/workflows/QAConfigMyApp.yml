@@ -10,7 +10,7 @@ on:
     branches: [ master, develop ]
 
 jobs:
-  DcokerImage-QA:
+  DockerImage-QA:
     runs-on: ubuntu-latest
     steps:
     - uses: actions/checkout@v2
@@ -26,71 +26,80 @@ jobs:
     steps:
     # Checks-out your repository under $GITHUB_WORKSPACE, so your job can access it
     - uses: actions/checkout@v2
-      
-    - name: TestCase1- Basic ConfigMyApp
+
+    - name: TestCase0- Basic ConfigMyApp
       run: |
           echo Running basic CMA
           pwd
           ls -ltr
-          ./start.sh -a Jenkins_API -c configmyappdemo-2044no-uzyczrm0.appd-cx.com -p appd -u appd 
-          
+          ./start.sh -a Jenkins_API_Demo -c ${{ secrets.CONTROLLER_HOST }} -p ${{ secrets.CONTROLLER_USERNAME }} -u ${{ secrets.CONTROLLER_PASSWORD }} 
+      
+    - name: TestCase1- Basic ConfigMyApp with default dashboard off
+      run: |
+          echo Running basic CMA with default dashboard off
+          pwd
+          ls -ltr
+          ./start.sh -a Jenkins_API_Demo -c ${{ secrets.CONTROLLER_HOST }} -p ${{ secrets.CONTROLLER_USERNAME }} -u ${{ secrets.CONTROLLER_PASSWORD }} --no-upload-default-dashboard
+                 
     - name: TestCase2- BT_ONLY
       env:
         CMA_USE_HTTPS: false
       run: |
           echo Running BT_ONLY,
-          ./start.sh -a Jenkins_API -c configmyappdemo-2044no-uzyczrm0.appd-cx.com -p appd -u appd --bt-only
+          ./start.sh -a Jenkins_API_Demo --bt-only -c ${{ secrets.CONTROLLER_HOST }} -p ${{ secrets.CONTROLLER_USERNAME }} -u ${{ secrets.CONTROLLER_PASSWORD }} --no-upload-default-dashboard
           
-    - name: TestCase3- Action suppression.Default
+    - name: TestCase3- Action suppression. Default.
       run: |
           echo Running Action Suppression,
-          ./start.sh -a Jenkins_API -c configmyappdemo-2044no-uzyczrm0.appd-cx.com -p appd -u appd --suppress-action
+          ./start.sh -a Jenkins_API_Demo --suppress-action -c ${{ secrets.CONTROLLER_HOST }} -p ${{ secrets.CONTROLLER_USERNAME }} -u ${{ secrets.CONTROLLER_PASSWORD }} --no-upload-default-dashboard
           
-    - name: TestCase4- Action suppression. Date and duration 
+    - name: TestCase4- Action suppression. Date and duration.
       run: |
           echo Running Action Suppression 
           #--suppress-start=$(date -d " + 20 minutes" -u  +%FT%T)
-          ./start.sh -a Jenkins_API -c configmyappdemo-2044no-uzyczrm0.appd-cx.com -p appd -u appd --suppress-action  --suppress-duration=120
+          ./start.sh -a Jenkins_API_Demo  --suppress-action  --suppress-duration=120 -c ${{ secrets.CONTROLLER_HOST }} -p ${{ secrets.CONTROLLER_USERNAME }} -u ${{ secrets.CONTROLLER_PASSWORD }} --no-upload-default-dashboard
           
-    - name: TestCase5- SIM and DB
+    - name: TestCase5- Upload custom dashboard - runtime
       run: |
+          echo Running Dash upload
+          curl https://gist.githubusercontent.com/iogbole/48e7568454b066132700c4fe039c2cff/raw/4aa417193e7ce9f3cce2410e67d525761cb6d678/gistfile1.txt -o ./custom_dashboards/CustomDashboard_vanilla.json
           echo Running SIM and DB,
-          ./start.sh -a IoT_API -c configmyappdemo-2044no-uzyczrm0.appd-cx.com -p appd -u appd  --include-database  --database-name 'ConfigMyApp'  --include-sim
+          ./start.sh -a Jenkins_API_Demo --upload-custom-dashboard -c ${{ secrets.CONTROLLER_HOST }} -p ${{ secrets.CONTROLLER_USERNAME }} -u ${{ secrets.CONTROLLER_PASSWORD }} --no-upload-default-dashboard
           
-    - name: TestCase6- Upload dashboard
+    - name: TestCase6- Upload custom dashboard - env variables
       run: |
           echo Running Dash upload
           curl https://gist.githubusercontent.com/iogbole/48e7568454b066132700c4fe039c2cff/raw/4aa417193e7ce9f3cce2410e67d525761cb6d678/gistfile1.txt -o ./custom_dashboards/CustomDashboard_vanilla.json
           export CMA_UPLOAD_CUSTOM_DASHBOARD=true
-          ./start.sh -a IoT_API -c configmyappdemo-2044no-uzyczrm0.appd-cx.com -p appd -u appd
+          ./start.sh -a Jenkins_API_Demo -c ${{ secrets.CONTROLLER_HOST }} -p ${{ secrets.CONTROLLER_USERNAME }} -u ${{ secrets.CONTROLLER_PASSWORD }} --no-upload-default-dashboard
 
-    - name: TestCase7- health rules only - no overwrite - parameters
+    - name: TestCase7- Health rules only - no overwrite - parameters
       env:
         CMA_USE_HTTPS: false
       run: |
           echo Running health rules only, get values from runtime parameters,
-          ./start.sh -a Jenkins_API -c configmyappdemo-2044no-uzyczrm0.appd-cx.com -p appd -u appd --health-rules-only --no-health-rules-overwrite
+          ./start.sh -a Jenkins_API_Demo --health-rules-only --no-health-rules-overwrite -c ${{ secrets.CONTROLLER_HOST }} -p ${{ secrets.CONTROLLER_USERNAME }} -u ${{ secrets.CONTROLLER_PASSWORD }} --no-upload-default-dashboard
 
-    - name: TestCase8- health rules only - overwrite - env variables
+    - name: TestCase8- Health rules only - overwrite - env variables
       env:
         CMA_USE_HTTPS: false
         CMA_HEALTH_RULES_OVERWRITE: true
         CMA_HEALTH_RULES_ONLY: true
       run: |
           echo Running health rules only, get values from environment variables,
-          ./start.sh -a Jenkins_API -c configmyappdemo-2044no-uzyczrm0.appd-cx.com -p appd -u appd
+          ./start.sh -a Jenkins_API_Demo -c ${{ secrets.CONTROLLER_HOST }} -p ${{ secrets.CONTROLLER_USERNAME }} -u ${{ secrets.CONTROLLER_PASSWORD }} --no-upload-default-dashboard
 
-    - name: TestCase9- health rules only - overwrite default - config
+    - name: TestCase9- Health rules only - overwrite default - config
       env:
         CMA_USE_HTTPS: false
       run: |
           cp config.json config.json.bkp
           curl https://gist.githubusercontent.com/AlexJov/63ccb17421208679ef63b55afafea712/raw/b8e5ebc5399a8d7df5422ff07c49c892f0c3bd63/config.json -o ./config.json
           echo Running health rules only, get values from config,
-          ./start.sh -a Jenkins_API -c configmyappdemo-2044no-uzyczrm0.appd-cx.com -p appd -u appd
+          ./start.sh -a Jenkins_API_Demo -c ${{ secrets.CONTROLLER_HOST }} -p ${{ secrets.CONTROLLER_USERNAME }} -u ${{ secrets.CONTROLLER_PASSWORD }} --no-upload-default-dashboard
           cp config.json.bkp config.json
 
-    - name: TestCase10- delete health rules, existing,
+    - name: TestCase10- Delete health rules, existing
       env:
         CMA_USE_HTTPS: false
       run: |
@@ -98,18 +107,79 @@ jobs:
           curl https://gist.githubusercontent.com/AlexJov/03317fd4271325fbd6678dded2df6e91/raw/bb33a4b3abcaed762f1a5b262586183c6efd4402/CpuUtilisationTooHighToDelete.json -o ./health_rules/ServerVisibility/CpuUtilisationTooHighToDelete.json
           
           echo Running health rules only, import additional health rules,
-          ./start.sh -a Jenkins_API -c configmyappdemo-2044no-uzyczrm0.appd-cx.com -p appd -u appd --include-sim --health-rules-only
+          ./start.sh -a Jenkins_API_Demo -u appd --include-sim --health-rules-only -c ${{ secrets.CONTROLLER_HOST }} -p ${{ secrets.CONTROLLER_USERNAME }} -u ${{ secrets.CONTROLLER_PASSWORD }} --no-upload-default-dashboard
 
           echo Delete health rules:
-          ./start.sh -c http://configmyappdemo-2044no-uzyczrm0.appd-cx.com/ -a Jenkins_API -u appd -p appd --health-rules-delete "Agent Availability to Delete, Server Health: CPU Utilisation is too high to Delete"
+          ./start.sh -a Jenkins_API_Demo --health-rules-delete "Agent Availability to Delete, Server Health: CPU Utilisation is too high to Delete" -c ${{ secrets.CONTROLLER_HOST }} -p ${{ secrets.CONTROLLER_USERNAME }} -u ${{ secrets.CONTROLLER_PASSWORD }} --no-upload-default-dashboard
 
-    - name: TestCase11- delete health rules, non existing
+    - name: TestCase11- Delete health rules, non existing
       env:
         CMA_USE_HTTPS: false
       run: |
-          echo Delete health rules, delete health rules from TestCase10,
-          ./start.sh -c http://configmyappdemo-2044no-uzyczrm0.appd-cx.com/ -a Jenkins_API -u appd -p appd --health-rules-delete "There is no this rule name"
-          
-          
-          
-          
+          echo Delete health rules, delete health rules from TestCase10
+          ./start.sh -a Jenkins_API_Demo --health-rules-delete "There is no this rule name" -c ${{ secrets.CONTROLLER_HOST }} -p ${{ secrets.CONTROLLER_USERNAME }} -u ${{ secrets.CONTROLLER_PASSWORD }} --no-upload-default-dashboard
+    
+    - name: TestCase12- Overwrite Health rules - runtime 
+      run: |
+          echo Running basic CMA
+          pwd
+          ls -ltr
+          ./start.sh -a Jenkins_API_Demo --health-rules-only --overwrite-health-rules -c ${{ secrets.CONTROLLER_HOST }} -p ${{ secrets.CONTROLLER_USERNAME }} -u ${{ secrets.CONTROLLER_PASSWORD }} --no-upload-default-dashboard
+    
+    - name: TestCase13- Upload default dashboard SIM and DB - runtime
+      run: |
+          echo Running SIM and DB, runtime
+          ./start.sh -a Jenkins_API_Demo --upload-default-dashboard --include-database  --database-name 'ConfigMyApp' --include-sim -c ${{ secrets.CONTROLLER_HOST }} -p ${{ secrets.CONTROLLER_USERNAME }} -u ${{ secrets.CONTROLLER_PASSWORD }} 
+    
+    - name: TestCase14- Upload default dashboard - env variables
+      env:
+        CMA_UPLOAD_DEFAULT_DASHBOARD: true
+        CMA_USE_BRANDING: false
+        CMA_INCLUDE_DATABASE: true
+        CMA_DATABASE_NAME: "MyTestDB"
+        CMA_INCLUDE_SIM: true
+      run: |
+          echo Running SIM and DB, env vars
+          ./start.sh -a Jenkins_API_Demo -c ${{ secrets.CONTROLLER_HOST }} -p ${{ secrets.CONTROLLER_USERNAME }} -u ${{ secrets.CONTROLLER_PASSWORD }} 
+      
+    - name: TestCase15- rbac roles and saml groups - runtime 
+      env:
+        CMA_UPLOAD_DEFAULT_DASHBOARD: false
+      run: |
+          echo Running RBAC, runtime parameters
+          ./start.sh -a Jenkins_API_Demo -c ${{ secrets.CONTROLLER_HOST }} -p ${{ secrets.CONTROLLER_USERNAME }} -u ${{ secrets.CONTROLLER_PASSWORD }} --rbac-only --rbac-action="role-saml"
+
+    - name: TestCase16- rbac roles and saml groups - env variables
+      env:
+        CMA_UPLOAD_DEFAULT_DASHBOARD: false
+        CMA_RBAC_ONLY: true
+        CMA_RBAC_ACTION: "role-saml"
+        CMA_RBAC_ROLE_NAME: "test-role"
+        CMA_RBAC_ROLE_DESCRIPTION: "test-role-desc"
+        CMA_RBAC_SAML_GROUP_NAME: "test-saml-group"
+      run: |
+          echo Running RBAC, env vars
+          ./start.sh -a Jenkins_API_Demo -c ${{ secrets.CONTROLLER_HOST }} -p ${{ secrets.CONTROLLER_USERNAME }} -u ${{ secrets.CONTROLLER_PASSWORD }}
+
+    - name: TestCase17- rbac roles and saml groups - no names provided - env variables
+      env:
+        CMA_UPLOAD_DEFAULT_DASHBOARD: false
+        CMA_RBAC_ONLY: true
+        CMA_RBAC_ACTION: "role-saml"
+      run: |
+          echo Running RBAC, env vars
+          ./start.sh -a Jenkins_API_Demo -c ${{ secrets.CONTROLLER_HOST }} -p ${{ secrets.CONTROLLER_USERNAME }} -u ${{ secrets.CONTROLLER_PASSWORD }}
+
+    - name: TestCase18- sensitive data masking - env variables
+      env:
+        CMA_UPLOAD_DEFAULT_DASHBOARD: false
+        CMA_DATA_MASKING: true
+        CMA_DATA_MASKING_PATTERNS: "-.*8090"
+        CMA_DATA_MASKING_STRATEGY: "exact"
+      run: |
+          echo Running sensitive data masking, env vars
+          ./start.sh -a Jenkins_API_Demo -c ${{ secrets.CONTROLLER_HOST }} -p ${{ secrets.CONTROLLER_USERNAME }} -u ${{ secrets.CONTROLLER_PASSWORD }}
+          last_log_line=$(tail -n 1 error.log)
+          echo "Logged: ${last_log_line}" 
+
+

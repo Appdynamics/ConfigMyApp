@@ -1,0 +1,224 @@
+{
+    "action": "VIEW",
+    "allowed": true,
+    "affectedEntity": {
+        "entityId": <app-id-goes-here>,
+        "entityType": "APPLICATION"
+    }
+},
+{
+    "action": "DELETE",
+    "allowed": false,
+    "affectedEntity": {
+        "entityId": <app-id-goes-here>,
+        "entityType": "APPLICATION"
+    }
+},
+{
+    "action": "CONFIG_TRANSACTION_DETECTION",
+    "allowed": true,
+    "affectedEntity": {
+        "entityId": <app-id-goes-here>,
+        "entityType": "APPLICATION"
+    }
+},
+{
+    "action": "CONFIG_BACKEND_DETECTION",
+    "allowed": true,
+    "affectedEntity": {
+        "entityId": <app-id-goes-here>,
+        "entityType": "APPLICATION"
+    }
+},
+{
+    "action": "CONFIG_ERROR_DETECTION",
+    "allowed": true,
+    "affectedEntity": {
+        "entityId": <app-id-goes-here>,
+        "entityType": "APPLICATION"
+    }
+},
+{
+    "action": "CONFIG_DIAGNOSTIC_DATA_COLLECTORS",
+    "allowed": true,
+    "affectedEntity": {
+        "entityId": <app-id-goes-here>,
+        "entityType": "APPLICATION"
+    }
+},
+{
+    "action": "CONFIG_CALLGRAPH_SETTINGS",
+    "allowed": true,
+    "affectedEntity": {
+        "entityId": <app-id-goes-here>,
+        "entityType": "APPLICATION"
+    }
+},
+{
+    "action": "CONFIG_JMX",
+    "allowed": true,
+    "affectedEntity": {
+        "entityId": <app-id-goes-here>,
+        "entityType": "APPLICATION"
+    }
+},
+{
+    "action": "CONFIG_MEMORY_MONITORING",
+    "allowed": true,
+    "affectedEntity": {
+        "entityId": <app-id-goes-here>,
+        "entityType": "APPLICATION"
+    }
+},
+{
+    "action": "CONFIG_EUM",
+    "allowed": true,
+    "affectedEntity": {
+        "entityId": <app-id-goes-here>,
+        "entityType": "APPLICATION"
+    }
+},
+{
+    "action": "CONFIG_INFO_POINTS",
+    "allowed": true,
+    "affectedEntity": {
+        "entityId": <app-id-goes-here>,
+        "entityType": "APPLICATION"
+    }
+},
+{
+    "action": "CONFIG_POLICIES",
+    "allowed": true,
+    "affectedEntity": {
+        "entityId": <app-id-goes-here>,
+        "entityType": "APPLICATION"
+    }
+},
+{
+    "action": "CONFIG_EVENT_REACTOR",
+    "allowed": true,
+    "affectedEntity": {
+        "entityId": <app-id-goes-here>,
+        "entityType": "APPLICATION"
+    }
+},
+{
+    "action": "CONFIG_ACTIONS",
+    "allowed": true,
+    "affectedEntity": {
+        "entityId": <app-id-goes-here>,
+        "entityType": "APPLICATION"
+    }
+},
+{
+    "action": "CONFIG_BUSINESS_TRANSACTIONS",
+    "allowed": true,
+    "affectedEntity": {
+        "entityId": <app-id-goes-here>,
+        "entityType": "APPLICATION"
+    }
+},
+{
+    "action": "CONFIG_BASELINES",
+    "allowed": true,
+    "affectedEntity": {
+        "entityId": <app-id-goes-here>,
+        "entityType": "APPLICATION"
+    }
+},
+{
+    "action": "CONFIG_SQL_BIND_VARIABLES",
+    "allowed": true,
+    "affectedEntity": {
+        "entityId": <app-id-goes-here>,
+        "entityType": "APPLICATION"
+    }
+},
+{
+    "action": "CONFIG_AGENT_PROPERTIES",
+    "allowed": true,
+    "affectedEntity": {
+        "entityId": <app-id-goes-here>,
+        "entityType": "APPLICATION"
+    }
+},
+{
+    "action": "CONFIG_AGENT_OPERATIONS",
+    "allowed": true,
+    "affectedEntity": {
+        "entityId": <app-id-goes-here>,
+        "entityType": "APPLICATION"
+    }
+},
+{
+    "action": "ENABLE_JMX_OPERATIONS",
+    "allowed": true,
+    "affectedEntity": {
+        "entityId": <app-id-goes-here>,
+        "entityType": "APPLICATION"
+    }
+},
+{
+    "action": "CONFIG_SERVICE_ENDPOINTS",
+    "allowed": true,
+    "affectedEntity": {
+        "entityId": <app-id-goes-here>,
+        "entityType": "APPLICATION"
+    }
+},
+{
+    "action": "ENABLE_DEVELOPMENT_MODE",
+    "allowed": true,
+    "affectedEntity": {
+        "entityId": <app-id-goes-here>,
+        "entityType": "APPLICATION"
+    }
+},
+{
+    "action": "MANAGE_CUSTOM_DASHBOARD_TEMPLATES",
+    "allowed": true,
+    "affectedEntity": {
+        "entityId": <app-id-goes-here>,
+        "entityType": "APPLICATION"
+    }
+},
+{
+    "action": "CONFIG_TRIGGER_DIAGNOSTIC_SESSION",
+    "allowed": true,
+    "affectedEntity": {
+        "entityId": <app-id-goes-here>,
+        "entityType": "APPLICATION"
+    }
+},
+{
+    "action": "NETVIZ_AGENT_PCAP_TRIGGER",
+    "allowed": true,
+    "affectedEntity": {
+        "entityId": <app-id-goes-here>,
+        "entityType": "APPLICATION"
+    }
+},
+{
+    "action": "ACI_APIC_TROUBLESHOOTING",
+    "allowed": true,
+    "affectedEntity": {
+        "entityId": <app-id-goes-here>,
+        "entityType": "APPLICATION"
+    }
+},
+{
+    "action": "VIEW_SENSITIVE_DATA",
+    "allowed": true,
+    "affectedEntity": {
+        "entityId": <app-id-goes-here>,
+        "entityType": "APPLICATION"
+    }
+},
+{
+    "action": "CREATE_EVENTS",
+    "allowed": true,
+    "affectedEntity": {
+        "entityId": <app-id-goes-here>,
+        "entityType": "APPLICATION"
+    }
+}

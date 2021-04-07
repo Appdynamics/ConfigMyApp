@@ -1,0 +1,240 @@
+{
+    "action": "VIEW",
+    "allowed": true,
+    "affectedEntity": {
+        "entityId": 0,
+        "entityType": "APPLICATION"
+    }
+},
+{
+    "action": "DELETE",
+    "allowed": false,
+    "affectedEntity": {
+        "entityId": 0,
+        "entityType": "APPLICATION"
+    }
+},
+{
+    "action": "CONFIG_TRANSACTION_DETECTION",
+    "allowed": false,
+    "affectedEntity": {
+        "entityId": 0,
+        "entityType": "APPLICATION"
+    }
+},
+{
+    "action": "CONFIG_BACKEND_DETECTION",
+    "allowed": false,
+    "affectedEntity": {
+        "entityId": 0,
+        "entityType": "APPLICATION"
+    }
+},
+{
+    "action": "CONFIG_ERROR_DETECTION",
+    "allowed": false,
+    "affectedEntity": {
+        "entityId": 0,
+        "entityType": "APPLICATION"
+    }
+},
+{
+    "action": "CONFIG_DIAGNOSTIC_DATA_COLLECTORS",
+    "allowed": false,
+    "affectedEntity": {
+        "entityId": 0,
+        "entityType": "APPLICATION"
+    }
+},
+{
+    "action": "CONFIG_CALLGRAPH_SETTINGS",
+    "allowed": false,
+    "affectedEntity": {
+        "entityId": 0,
+        "entityType": "APPLICATION"
+    }
+},
+{
+    "action": "CONFIG_JMX",
+    "allowed": false,
+    "affectedEntity": {
+        "entityId": 0,
+        "entityType": "APPLICATION"
+    }
+},
+{
+    "action": "CONFIG_MEMORY_MONITORING",
+    "allowed": false,
+    "affectedEntity": {
+        "entityId": 0,
+        "entityType": "APPLICATION"
+    }
+},
+{
+    "action": "CONFIG_EUM",
+    "allowed": false,
+    "affectedEntity": {
+        "entityId": 0,
+        "entityType": "APPLICATION"
+    }
+},
+{
+    "action": "CONFIG_INFO_POINTS",
+    "allowed": false,
+    "affectedEntity": {
+        "entityId": 0,
+        "entityType": "APPLICATION"
+    }
+},
+{
+    "action": "CONFIG_POLICIES",
+    "allowed": false,
+    "affectedEntity": {
+        "entityId": 0,
+        "entityType": "APPLICATION"
+    }
+},
+{
+    "action": "CONFIG_EVENT_REACTOR",
+    "allowed": false,
+    "affectedEntity": {
+        "entityId": 0,
+        "entityType": "APPLICATION"
+    }
+},
+{
+    "action": "CONFIG_ACTIONS",
+    "allowed": false,
+    "affectedEntity": {
+        "entityId": 0,
+        "entityType": "APPLICATION"
+    }
+},
+{
+    "action": "CONFIG_BUSINESS_TRANSACTIONS",
+    "allowed": false,
+    "affectedEntity": {
+        "entityId": 0,
+        "entityType": "APPLICATION"
+    }
+},
+{
+    "action": "CONFIG_BASELINES",
+    "allowed": false,
+    "affectedEntity": {
+        "entityId": 0,
+        "entityType": "APPLICATION"
+    }
+},
+{
+    "action": "CONFIG_SQL_BIND_VARIABLES",
+    "allowed": false,
+    "affectedEntity": {
+        "entityId": 0,
+        "entityType": "APPLICATION"
+    }
+},
+{
+    "action": "CONFIG_AGENT_PROPERTIES",
+    "allowed": false,
+    "affectedEntity": {
+        "entityId": 0,
+        "entityType": "APPLICATION"
+    }
+},
+{
+    "action": "CONFIG_SERVICE_ENDPOINTS",
+    "allowed": false,
+    "affectedEntity": {
+        "entityId": 0,
+        "entityType": "APPLICATION"
+    }
+},
+{
+    "action": "ENABLE_DEVELOPMENT_MODE",
+    "allowed": false,
+    "affectedEntity": {
+        "entityId": 0,
+        "entityType": "APPLICATION"
+    }
+},
+{
+    "action": "MANAGE_CUSTOM_DASHBOARD_TEMPLATES",
+    "allowed": false,
+    "affectedEntity": {
+        "entityId": 0,
+        "entityType": "APPLICATION"
+    }
+},
+{
+    "action": "CONFIG_SIM",
+    "allowed": false,
+    "affectedEntity": {
+        "entityId": 0,
+        "entityType": "APPLICATION"
+    }
+},
+{
+    "action": "CONFIG_AGENT_OPERATIONS",
+    "allowed": false,
+    "affectedEntity": {
+        "entityId": 0,
+        "entityType": "APPLICATION"
+    }
+},
+{
+    "action": "CONFIG_TRIGGER_DIAGNOSTIC_SESSION",
+    "allowed": false,
+    "affectedEntity": {
+        "entityId": 0,
+        "entityType": "APPLICATION"
+    }
+},
+{
+    "action": "ENABLE_JMX_OPERATIONS",
+    "allowed": false,
+    "affectedEntity": {
+        "entityId": 0,
+        "entityType": "APPLICATION"
+    }
+},
+{
+    "action": "VIEW_SENSITIVE_DATA",
+    "allowed": false,
+    "affectedEntity": {
+        "entityId": 0,
+        "entityType": "APPLICATION"
+    }
+},
+{
+    "action": "VIEW_SIM",
+    "allowed": false,
+    "affectedEntity": {
+        "entityId": 0,
+        "entityType": "APPLICATION"
+    }
+},
+{
+    "action": "NETVIZ_AGENT_PCAP_TRIGGER",
+    "allowed": false,
+    "affectedEntity": {
+        "entityId": 0,
+        "entityType": "APPLICATION"
+    }
+},
+{
+    "action": "ACI_APIC_TROUBLESHOOTING",
+    "allowed": false,
+    "affectedEntity": {
+        "entityId": 0,
+        "entityType": "APPLICATION"
+    }
+},
+{
+    "action": "CREATE_EVENTS",
+    "allowed": false,
+    "affectedEntity": {
+        "entityId": 0,
+        "entityType": "APPLICATION"
+    }
+}

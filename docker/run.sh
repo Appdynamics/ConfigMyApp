@@ -15,6 +15,14 @@ fi
 #standard run
 docker run --rm --env-file env.list ${image_name}:${version} 
 
+if [ $? -eq 0 ]
+then
+  echo "Successful Docker container run. Proceeding..."
+else
+  echo "Error occurred. Could not run the Docker container." >&2
+  exit 1
+fi
+
 docker ps
 
 # change directory to the root folder where mounted volumes are located - if you're executing the ./run.sh script

@@ -1,0 +1,80 @@
+# Starter pipeline
+# Start with a minimal pipeline that you can customize to build and deploy your code.
+# Add steps that build, run tests, deploy, and more:
+# https://aka.ms/yaml
+
+
+trigger:
+- master
+pool:
+  vmImage: 'ubuntu-latest'
+  environment:
+   name: 'CMA'
+   tags: configmyapp
+
+# Set variables once as shown below, use the UI 
+variables:
+  #CMA_APPLICATION_NAME: IoT_API
+  CMA_CONTROLLER_HOST: configmyappdemo-2044no-uzyczrm0.appd-cx.com
+  CMA_CONTROLLER_PORT: 8090
+  CMA_ACCOUNT: customer1
+  CMA_USE_HTTPS: false
+  CMA_USERNAME: appd
+  CMA_CONFIGURE_BT: true
+  #CMA_INCLUDE_SIM: true
+  #CMA_BT_ONLY: false
+  #CMA_INCLUDE_DATABASE : false
+  #CMA_OVERWRITE_HEALTH_RULES: true
+  #CMA_DATABASE_NAME: ConfigMyApp
+
+steps:
+- script: |
+    # Write your commands here
+    
+    LOCATION=$(curl -s https://api.github.com/repos/Appdynamics/ConfigMyApp/releases/latest \
+                | grep "tag_name" \
+                | awk '{print "https://github.com/Appdynamics/ConfigMyApp/archive/" substr($2, 2, length($2)-3) ".zip"}') \
+                ; curl -L -o ConfigMyApp.zip $LOCATION
+        
+    pwd
+    ls -ltr
+    # apt-get install unzip -y
+    unzip ConfigMyApp.zip
+    cd ConfigMyApp-* 
+
+    #Branding #
+
+    #Get it from a remote location 
+
+    #background="https://user-images.githubusercontent.com/2548160/88209855-36123d80-cc4b-11ea-8a46-8bf8bd02bbb5.jpg"
+    #curl -o "branding/background.jpg" $background 
+    #logo="https://user-images.githubusercontent.com/2548160/88204707-9a310380-cc43-11ea-9149-561199f144af.png"
+    #curl -o "branding/logo.png" $logo 
+
+    #OR copy the files from git
+
+    cp  ../branding/background.png branding/background.png
+    cp  ../branding/logo.png branding/logo.png
+
+     echo CMA_BT_ONLY = $CMA_BT_ONLY
+     echo CMA_CONFIGURE_BT = $CMA_CONFIGURE_BT
+
+    if [ "$CMA_BT_ONLY" = true ] || [ "$CMA_CONFIGURE_BT" = true ]; then
+       cp ../bt_config/$CMA_APPLICATION_NAME-configBT.json bt_config/configBT.json
+       ./start.sh  --include-database --database-name="$CMA_DATABASE_NAME" --use-branding --logo-name="logo.png" --background-name="background.png" 
+    else
+       ./start.sh  --use-branding --logo-name="logo.png" --background-name="background.png" 
+    fi
+    echo "End script##"
+  displayName: 'Run ConfigMyApp'
+  env:
+    CMA_PASSWORD: $(CMA_PASSWORD)
+    CMA_APPLICATION_NAME: $(CMA_APPLICATION_NAME)
+    CMA_INCLUDE_SIM: $(CMA_INCLUDE_SIM)
+    CMA_CONFIGURE_BT: $(CMA_CONFIGURE_BT)
+    CMA_BT_ONLY: $(CMA_BT_ONLY)
+    CMA_INCLUDE_DATABASE: $(CMA_INCLUDE_DATABASE)
+    CMA_DATABASE_NAME: $(CMA_DATABASE_NAME)
+    CMA_OVERWRITE_HEALTH_RULES: $(CMA_OVERWRITE_HEALTH_RULES)
+
+     

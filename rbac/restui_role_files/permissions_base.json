@@ -1,0 +1,9 @@
+{
+    "permissions": [
+        <overall-permissions-go-here>
+        ,
+        <application-permissions-go-here>
+    ],
+    "name": "<role-name-goes-here>",
+    "description": "<role-description-goes-here>"
+}

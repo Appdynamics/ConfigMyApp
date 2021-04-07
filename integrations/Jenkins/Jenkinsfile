@@ -1,0 +1,92 @@
+def label = "worker-${UUID.randomUUID().toString()}"
+
+properties(
+  [parameters(
+    [
+      string(defaultValue: 'IoT_API', description: '', name: 'CMA_APPLICATION_NAME', trim: false),
+      choice(choices: ['configmyappdemo-2044no-uzyczrm0.appd-cx.com', 'dev-configmyappdemo-2044no-uzyczrm0.appd-cx.com'], description: 'Select AppDynamics Controller', name: 'CMA_CONTROLLER_HOST'),
+      choice(choices: ['customer1', 'dev-customer1'], description: 'Select AppDynamics Account', name: 'CMA_ACCOUNT'),
+      string(defaultValue: '8090', description: 'Controller Port', name: 'CMA_CONTROLLER_PORT', trim: true),
+      booleanParam(defaultValue: 'false', description: 'Use HTTPS?', name: 'CMA_USE_HTTPS', trim: false),
+      booleanParam(defaultValue: false, description: 'Include Server visibility', name: 'CMA_INCLUDE_SIM'),
+      booleanParam(defaultValue: false, description: 'Configure ONLY Buisness transactions', name: 'CMA_BT_ONLY'),
+      booleanParam(defaultValue: false, description: 'Add Business Transactions', name: 'CMA_CONFIGURE_BT'),
+      booleanParam(defaultValue: false, description: 'Include Database', name: 'CMA_INCLUDE_DATABASE'),
+      string(defaultValue: 'app-db', description: 'If Include DB, set DB collector name', name: 'CMA_DATABASE_NAME', trim: false),
+      booleanParam(defaultValue: false, description: 'Overwrite Existing Health Rules', name: 'CMA_OVERWRITE_HEALTH_RULES')
+    ])
+  ]
+)
+
+node {
+ 	// Clean workspace before doing anything
+    deleteDir()
+  try {
+
+      stage ('Clone') {
+        	checkout scm
+        }
+
+       stage('ConfigMyApp') {  
+        
+           withCredentials([usernamePassword(credentialsId: 'controller_credentials', passwordVariable: 'CMA_PASSWORD', usernameVariable: 'CMA_USERNAME')]) {
+            sh """
+            echo "ConfigMyApp...start "  
+            export CMA_APPLICATION_NAME=${params.CMA_APPLICATION_NAME}
+            export CMA_CONTROLLER_HOST=${params.CMA_CONTROLLER_HOST}
+            export CMA_USE_HTTPS=${params.CMA_USE_HTTPS}
+            export CMA_CONTROLLER_PORT=${params.CMA_CONTROLLER_PORT}
+            export CMA_BT_ONLY=${params.CMA_BT_ONLY}
+            export CMA_ACCOUNT=${params.CMA_ACCOUNT}
+            export CMA_INCLUDE_SIM=${params.CMA_INCLUDE_SIM}
+            export CMA_CONFIGURE_BT=${params.CMA_CONFIGURE_BT}
+            export CMA_INCLUDE_DATABASE=${params.CMA_INCLUDE_DATABASE}
+
+            LOCATION=\$(curl -s https://api.github.com/repos/Appdynamics/ConfigMyApp/releases/latest \
+            | grep "tag_name" \
+            | awk '{print "https://github.com/Appdynamics/ConfigMyApp/archive/" substr(\$2, 2, length(\$2)-3) ".zip"}') \
+            ; curl -L -o ConfigMyApp.zip \$LOCATION
+
+            ls -ltr
+
+            # apt-get install unzip -y
+            unzip ConfigMyApp.zip
+            cd ConfigMyApp-* 
+
+            #Branding 
+
+            background="https://user-images.githubusercontent.com/2548160/90539325-97103100-e177-11ea-975a-6ae777ae03e3.jpg"
+            curl -o "branding/background.jpg" \$background 
+            logo="https://user-images.githubusercontent.com/2548160/90539333-98d9f480-e177-11ea-99b9-8b72a2fe525a.png"
+            curl -o "branding/logo.png" \$logo 
+            
+            pwd
+
+            ls ${workspace}@script/
+
+            ls ${workspace}
+
+            if [ "\$CMA_BT_ONLY" = true ] || [ "\$CMA_CONFIGURE_BT" = true ]; then
+              cp ${workspace}/bt_config/${params.CMA_APPLICATION_NAME}-configBT.json bt_config/configBT.json
+            fi
+
+            #ls -ltr
+
+            echo "Start script"
+            if [ "\$CMA_INCLUDE_DATABASE" = true ]; then 
+              ./start.sh  --include-database --database-name='${params.CMA_DATABASE_NAME}' --overwrite-health-rules --use-branding --logo-name="logo.png" --background-name="background.jpg"
+            else
+              ./start.sh  --overwrite-health-rules --use-branding --logo-name="logo.png" --background-name="background.jpg" --debug
+            fi
+            echo "End script"
+          """
+        
+      }
+       }
+      }catch (err) {
+        currentBuild.result = 'FAILED'
+        throw err
+    }
+ } 
+
+ 

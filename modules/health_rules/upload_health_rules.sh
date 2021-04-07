@@ -1,5 +1,8 @@
 #!/bin/bash
 
+source ./modules/common/http_check.sh # func_check_http_status
+source ./modules/common/application.sh # func_get_application_id
+
 # 1. INPUT PARAMETERS
 _controller_url=${1}   # hostname + /controller
 _user_credentials=${2} # ${username}:${password}
@@ -10,21 +13,13 @@ _proxy_details=${4}
 _health_rules_overwrite=${5}
 _include_sim=${6}
 
+_debug=${7}
+
 #init HR templates
 serverVizHealthRuleFile="./health_rules/ServerVisibility/*.json"
 applicationHealthRule="./health_rules/Application/*.json"
 
 # 2. FUNCTIONS
-function func_check_http_status() {
-    local http_code=$1
-    local message_on_failure=$2
-    #echo "HTTP status code: $http_code"
-    if [[ $http_code -lt 200 ]] || [[ $http_code -gt 299 ]]; then
-        echo "${dt} ERROR "{$http_code: $message_on_failure}"" >> error.log
-        echo "$http_code: $message_on_failure"
-        exit 1
-    fi
-}
 
 function func_import_health_rules(){
     local appId=$1
@@ -53,17 +48,9 @@ function func_import_health_rules(){
     done
 }
 
-# 3. PREPARE 
-# check if App exist
-allApplications=$(curl -s --user ${_user_credentials} ${_controller_url}/rest/applications?output=JSON $_proxy_details)
+# # 3. PREPARE 
 
-applicationObject=$(jq --arg appName "$_application_name" '.[] | select(.name == $appName)' <<<$allApplications)
-
-if [ "$applicationObject" = "" ]; then
-    func_check_http_status 404 "Application '"$_application_name"' not found. Aborting..."
-fi
-
-appId=$(jq '.id' <<<$applicationObject)
+appId=$(func_get_application_id ${_controller_url} ${_user_credentials} ${_application_name} ${_proxy_details} )
 
 #All conditions met..
 
@@ -72,15 +59,16 @@ appId=$(jq '.id' <<<$applicationObject)
 # Server Visibility health rules
 if [ "${_include_sim}" = true ]; then
     echo "Creating Server Visibility Health Rules...Please wait"
-    echo ""
 
     func_import_health_rules $appId "${serverVizHealthRuleFile}"
 fi
 
 # Application health rules
-echo ""
-echo "Creating ${_application_name} Health Rules..."
-sleep 1
+echo "Creating ${_application_name} Health Rules...Please wait"
+
+if [ $_debug = true ]; then
+    echo "func_import_health_rules $appId "${applicationHealthRule}""
+fi
 
 func_import_health_rules $appId "${applicationHealthRule}"
 

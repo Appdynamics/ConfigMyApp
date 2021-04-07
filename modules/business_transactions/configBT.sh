@@ -2,12 +2,15 @@
 # Match types: MATCHES_REGEX, CONTAINS, EQUALS, STARTS_WITH, ENDS_WITH, IS_IN_LIST, IS_NOT_EMPTY
 # The format of the JSON must be maintained at all times.. all four sections must be available even if you're not using them, leave them blank.
 
+source ./modules/common/logging.sh # func_log_error_to_file
+
 bt_folder="./bt_api_templates"
 bt_conf="./bt_config/configBT.json"
 bt_config_template="bt_config_template.xml"
-app_name="$1"
+
+controller_url="$1"
 user_credentials="$2"
-controller_url="$3"
+app_name="$3"
 
 poco_temp_file="poco_temp_file.xml"
 poco_scope_temp_file="poco_scope_temp_file.xml"
@@ -292,7 +295,7 @@ if [ -f "$bt_file_path" ]; then
     echo "The file path is $bt_file_path"
     sleep 1
     echo ""
-    echo "Please wait while we configure BT detection rules in $appName"
+    echo "Please wait while we configure BT detection rules in $app_name"
 
     btendpoint="/transactiondetection/${app_name}/custom"
 
@@ -302,13 +305,13 @@ if [ -f "$bt_file_path" ]; then
         echo ""
         echo "*********************************************************************"
         echo "ConfigMyApp created Business transaction detection rules successfully."
-        echo "Please check $appName detection rule configuration pages."
+        echo "Please check $app_name detection rule configuration pages."
         echo "*********************************************************************"
         echo ""
     else
-        msg="An Error occured whilst creating business transaction detection rules. Please refer to the error.log file for further details"
-        echo "${dt} An Error occured whilst creating business transaction detection rules." >> error.log
-        echo "${dt} ERROR $bt_response" >>error.log
+        msg="An Error occured whilst creating business transaction detection rules. Please refer to the error.log file for further details."
+        func_log_error_to_file "An Error occured whilst creating business transaction detection rules for application '$app_name'."
+        func_log_error_to_file "$bt_response" "ERROR" 
         echo "$msg"
         echo "$bt_response"
         echo ""
