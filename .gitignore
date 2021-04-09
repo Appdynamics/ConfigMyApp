@@ -20,3 +20,4 @@ custom_dashboards/uploaded/*.json*
 cookie.appd
 rbac/restui_role_files/uploaded/*
 rbac/restui_saml_files/uploaded/*
+rbac/restui_license_rules_files/uploaded/*

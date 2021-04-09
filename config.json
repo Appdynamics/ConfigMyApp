@@ -63,13 +63,14 @@
       "rbac_action": "role-saml",
       "rbac_role_name": "",
       "rbac_role_description": "",
-      "rbac_saml_group_name": ""
+      "rbac_saml_group_name": "",
+      "rbac_license_rule_name": ""
     }
   ],
   "sensitive_data": [
     {
-      "data_masking": false,
-      "data_masking_patterns": "configmyapp-prod, https://, -.*8090",
+      "data_masking": true,
+      "data_masking_patterns": "-.*8090",
       "data_masking_strategy": "exact"
     }
   ]

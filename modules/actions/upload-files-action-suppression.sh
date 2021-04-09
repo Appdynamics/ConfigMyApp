@@ -2,6 +2,8 @@
 
 source ./modules/common/http_check.sh # func_check_http_status, func_check_http_response
 source ./modules/common/application.sh # func_get_application_id
+source ./modules/common/logging.sh # func_log_error_to_file
+source ./modules/common/sensitive_data.sh # func_data_masking
 
 # 1. INPUT PARAMETERS
 _controller_url=${1} # hostname + /controller
@@ -31,8 +33,9 @@ function func_check_http_response(){ # function override
         cp -rf "$filePath" "./api_actions/uploaded/${fileName}.${dt}"
         echo "Success..."
     else
-        echo "${dt} ERROR "{$http_message_body}"" >> error.log
         echo "ERROR $http_message_body"
+        http_message_body=$(func_data_masking ${http_message_body})
+        logged_to_file=$(func_log_error_to_file "${http_message_body}" "ERROR")
         # do not break on failure
     fi
 }

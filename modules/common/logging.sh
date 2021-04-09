@@ -1,7 +1,5 @@
 #!/bin/bash
 
-source ./modules/common/sensitive_data.sh # func_data_masking
-
 # intent to be internal
 function func_log_error_to_file(){
     local message="$1"

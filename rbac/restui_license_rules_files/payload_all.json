@@ -1,0 +1,37 @@
+{
+    "id": "<license-rule-id-goes-here>",
+    "account_id": "",
+    "name": "<license-rule-name-goes-here>",
+    "access_key": "<license-rule-key-goes-here>",
+    "constraints": [
+        {
+            "entity_type_id": "com.appdynamics.modules.apm.topology.impl.persistenceapi.model.ApplicationEntity",
+            "constraint_type": "ALLOW_ALL",
+            "match_conditions": []
+        },
+        {
+            "entity_type_id": "com.appdynamics.modules.apm.topology.impl.persistenceapi.model.MachineEntity",
+            "constraint_type": "ALLOW_ALL",
+            "match_conditions": []
+        }
+    ],
+    "entitlements": [
+        {
+            "license_module_type": "APM",
+            "number_of_licenses": 0
+        },
+        {
+            "license_module_type": "MACHINE_AGENT",
+            "number_of_licenses": 0
+        },
+        {
+            "license_module_type": "SIM_MACHINE_AGENT",
+            "number_of_licenses": 0
+        },
+        {
+            "license_module_type": "NETVIZ",
+            "number_of_licenses": 0
+        }
+    ],
+    "enabled": true
+}
