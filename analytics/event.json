@@ -1,0 +1,18 @@
+[
+    {
+        "id": "5653b879ab33a",
+        "productBrand": "ACME",
+        "userRating": 3,
+        "price": 2006.41,
+        "productName": "Watch",
+        "description": "new watch"
+    },
+    {
+        "id": "5653b879700",
+        "productBrand": "Widget",
+        "userRating": 1,
+        "price": 3800.13,
+        "productName": "Watch",
+        "description": "2015 watch"
+    }
+]

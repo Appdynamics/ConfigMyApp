@@ -1,0 +1,15 @@
+{
+    "adqlQueryString": "SELECT count(*) FROM transactions WHERE application=\"xyz\"",
+    "eventType": "BIZ_TXN",
+    "enabled": true,
+    "queryType": "ADQL_QUERY",
+    "queryName": "xyz-metric"
+}
+-------
+{
+    "adqlQueryString": "SELECT count(id) FROM myproducts",
+    "eventType": "myproducts",
+    "enabled": true,
+    "queryType": "ADQL_QUERY",
+    "queryName": "prod-ui-metric"
+}

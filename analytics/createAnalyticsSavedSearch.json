@@ -1,0 +1,22 @@
+{
+    "name": "bf62b6ad-e94b-4499-b63d-acab45137003",
+    "adqlQueries": [
+        "SELECT * FROM transactions"
+    ],
+    "searchType": "SINGLE",
+    "searchMode": "ADVANCED",
+    "viewMode": "DATA",
+    "visualization": "TABLE",
+    "dataSource": "transactions",
+    "selectedFields": [
+        "application",
+        "eventTimestamp",
+        "responseTime",
+        "transactionName",
+        "userExperience",
+        "segments.node",
+        "segments.tier"
+    ],
+    "widgets": [],
+    "searchName": "xyz-search"
+}

@@ -1,0 +1,10 @@
+{
+    "schema": {
+        "id": "string",
+        "productBrand": "string",
+        "userRating": "integer",
+        "price": "float",
+        "productName": "string",
+        "description": "string"
+    }
+}
