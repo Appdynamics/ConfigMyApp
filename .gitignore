@@ -13,3 +13,11 @@ Setup/Applications/*
 .vscode/*
 zz_demoflow*
 business_transactions/uploaded/*
+api_actions/uploaded/*.json*
+api_actions/actions/*.json*
+custom_dashboards/*.json*
+custom_dashboards/uploaded/*.json*
+cookie.appd
+rbac/restui_role_files/uploaded/*
+rbac/restui_saml_files/uploaded/*
+rbac/restui_license_rules_files/uploaded/*
