@@ -14,5 +14,5 @@ ConfigMyApp is wrapper on supported AppDynamics RESTful APIs.
 
 # Official Documentation
 
-Please refer to the <a href="https://appdynamics.github.io/ConfigMyApp" target="_blank"> official documentation </a> for further details
+Please refer to the <a href="https://ciscodevnet.github.io/ConfigMyApp" target="_blank"> official documentation </a> for further details
 
